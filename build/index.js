@@ -9,6 +9,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { Arithmetic } from "./Classes/Arithmetic.js";
+import { NumberBaseConversion } from "./Classes/NumberBaseConversion.js";
 import { Statistics } from "./Classes/Statistics.js";
 import { Trigonometric } from "./Classes/Trigonometric.js";
 export default function createServer() {
@@ -344,6 +345,96 @@ export default function createServer() {
         number: z.number().describe("The number in degrees to convert to radians")
     }, async ({ number }) => {
         const value = Trigonometric.degreesToRadians(number);
+        return {
+            content: [{
+                    type: "text",
+                    text: `${value}`
+                }]
+        };
+    });
+    /**
+     * Decimal to Hexadecimal conversion
+     * Converts a decimal number to its hexadecimal representation
+     */
+    mathServer.tool("decimalToHex", "Converts a decimal number to its hexadecimal representation", {
+        decimalNumber: z.number().int().describe("The decimal number to convert")
+    }, async ({ decimalNumber }) => {
+        const value = NumberBaseConversion.decimalToHex(decimalNumber);
+        return {
+            content: [{
+                    type: "text",
+                    text: `${value}`
+                }]
+        };
+    });
+    /**
+     * Hexadecimal to Decimal conversion
+     * Converts a hexadecimal string to its decimal representation
+     */
+    mathServer.tool("hexToDecimal", "Converts a hexadecimal string to its decimal representation", {
+        hexString: z.string().describe("The hexadecimal string to convert (e.g., 'FF', '0xFF')")
+    }, async ({ hexString }) => {
+        const value = NumberBaseConversion.hexToDecimal(hexString);
+        return {
+            content: [{
+                    type: "text",
+                    text: `${value}`
+                }]
+        };
+    });
+    /**
+     * Decimal to Binary conversion
+     * Converts a decimal number to its binary representation
+     */
+    mathServer.tool("decimalToBinary", "Converts a decimal number to its binary representation", {
+        decimalNumber: z.number().int().describe("The decimal number to convert")
+    }, async ({ decimalNumber }) => {
+        const value = NumberBaseConversion.decimalToBinary(decimalNumber);
+        return {
+            content: [{
+                    type: "text",
+                    text: `${value}`
+                }]
+        };
+    });
+    /**
+     * Binary to Decimal conversion
+     * Converts a binary string to its decimal representation
+     */
+    mathServer.tool("binaryToDecimal", "Converts a binary string to its decimal representation", {
+        binaryString: z.string().describe("The binary string to convert (e.g., '1010', '0b1010')")
+    }, async ({ binaryString }) => {
+        const value = NumberBaseConversion.binaryToDecimal(binaryString);
+        return {
+            content: [{
+                    type: "text",
+                    text: `${value}`
+                }]
+        };
+    });
+    /**
+     * Hexadecimal to Binary conversion
+     * Converts a hexadecimal string to its binary representation
+     */
+    mathServer.tool("hexToBinary", "Converts a hexadecimal string to its binary representation", {
+        hexString: z.string().describe("The hexadecimal string to convert (e.g., 'FF', '0xFF')")
+    }, async ({ hexString }) => {
+        const value = NumberBaseConversion.hexToBinary(hexString);
+        return {
+            content: [{
+                    type: "text",
+                    text: `${value}`
+                }]
+        };
+    });
+    /**
+     * Binary to Hexadecimal conversion
+     * Converts a binary string to its hexadecimal representation
+     */
+    mathServer.tool("binaryToHex", "Converts a binary string to its hexadecimal representation", {
+        binaryString: z.string().describe("The binary string to convert (e.g., '1010', '0b1010')")
+    }, async ({ binaryString }) => {
+        const value = NumberBaseConversion.binaryToHex(binaryString);
         return {
             content: [{
                     type: "text",
