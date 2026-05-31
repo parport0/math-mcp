@@ -484,6 +484,40 @@ export default function createServer() {
         }
     })
 
+    /**
+     * Hex to IEEE 754 Float conversion
+     * Converts a hexadecimal string to an IEEE 754 floating-point number (big-endian)
+     */
+    mathServer.tool("hexToFloat", "Converts a hexadecimal string to an IEEE 754 floating-point number (big-endian)", {
+        hexString: z.string().describe("The hexadecimal string in big-endian format (8 hex digits for float32, 16 for float64, e.g., '40C80000' for 6.5)"),
+        precision: z.enum(["32", "64"]).optional().describe("Precision: '32' for single precision (default), '64' for double precision")
+    }, async ({ hexString, precision }) => {
+        const value = NumberBaseConversion.hexToFloat(hexString, precision as "32" | "64" | undefined)
+        return {
+            content: [{
+                type: "text",
+                text: `${value}`
+            }]
+        }
+    })
+
+    /**
+     * Binary to IEEE 754 Float conversion
+     * Converts a binary string to an IEEE 754 floating-point number (big-endian)
+     */
+    mathServer.tool("binaryToFloat", "Converts a binary string to an IEEE 754 floating-point number (big-endian)", {
+        binaryString: z.string().describe("The binary string in big-endian format (32 bits for float32, 64 bits for float64, e.g., '01000000110100000000000000000000' for 6.5)"),
+        precision: z.enum(["32", "64"]).optional().describe("Precision: '32' for single precision (default), '64' for double precision")
+    }, async ({ binaryString, precision }) => {
+        const value = NumberBaseConversion.binaryToFloat(binaryString, precision as "32" | "64" | undefined)
+        return {
+            content: [{
+                type: "text",
+                text: `${value}`
+            }]
+        }
+    })
+
     return mathServer.server
 }
 
